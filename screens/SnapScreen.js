@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, CameraRoll } from 'react-native';
 // import { CameraView } from './src/components/CameraView';
 // import { ImagePickerRoll } from './src/components/ImagePickerRoll';
 import { Camera, Permissions } from 'expo';
 
 export default class SnapScreen extends Component {
   state = {
-    hasCameraPermission: null
+    hasCameraPermission: null,
+    cameraRollUri: null,
   };
 
   componentDidMount() {
@@ -27,10 +28,14 @@ export default class SnapScreen extends Component {
     );
   };
 
-  snap() {
+  snap = async() => {
   if (this.camera) {
-    this.camera.takePictureAsync().then(data => console.log(data))
-      .catch(err => console.log(err))
+    let result;
+    await this.camera.takePictureAsync().then(data => result = data)
+      .catch(err => console.log(err));
+
+    let saveResult = await CameraRoll.saveToCameraRoll(result, 'photo');
+    this.setState({ cameraRollUri: saveResult });
   }
 }
 
