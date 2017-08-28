@@ -6,7 +6,7 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 import SnapScreen from '../screens/SnapScreen';
-import LinksScreen from '../screens/LinksScreen';
+import ListScreen from '../screens/ListScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 export default TabNavigator(
@@ -14,8 +14,8 @@ export default TabNavigator(
     Snap: {
       screen: SnapScreen,
     },
-    Links: {
-      screen: LinksScreen,
+    Todos: {
+      screen: ListScreen,
     },
     Settings: {
       screen: SettingsScreen,
@@ -32,7 +32,7 @@ export default TabNavigator(
               ? `ios-information-circle${focused ? '' : '-outline'}`
               : 'md-information-circle';
             break;
-          case 'Links':
+          case 'Todos':
             iconName = Platform.OS === 'ios'
               ? `ios-link${focused ? '' : '-outline'}`
               : 'md-link';

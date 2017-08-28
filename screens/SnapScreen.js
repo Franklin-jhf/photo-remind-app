@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, CameraRoll } from 'react-nati
 // import { CameraView } from './src/components/CameraView';
 // import { ImagePickerRoll } from './src/components/ImagePickerRoll';
 import { Camera, Permissions } from 'expo';
+import store from '../src/client';
 
 export default class SnapScreen extends Component {
   state = {
@@ -29,12 +30,13 @@ export default class SnapScreen extends Component {
   };
 
   snap = async() => {
+
   if (this.camera) {
     let result;
     await this.camera.takePictureAsync().then(data => result = data)
       .catch(err => console.log(err));
-
     let saveResult = await CameraRoll.saveToCameraRoll(result, 'photo');
+    store.dispatch({ type: "ADD_IMG", imageUri: saveResult});
     this.setState({ cameraRollUri: saveResult });
   }
 }

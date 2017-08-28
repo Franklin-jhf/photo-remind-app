@@ -26,4 +26,4 @@ const snaps = (state = initialState, action) => {
   }
 }
 
-export default cart;
+export default snaps;

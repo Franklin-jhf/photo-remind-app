@@ -1,29 +1,38 @@
-// import { combineReducers, createStore } from 'redux';
+import { combineReducers, createStore } from 'redux';
 
-// const imageReducer = (state=[], action) => { // ES6 ARROW FUNCTION
-//   switch(action.type) {
-//     case "ADD_IMG": {
-//       return [...state, action.payload];
-//     }
-//   }
-//   return state;
-//   }
-// }
+const initialState = {
+  images: ['hi its working']
+}
 
-// export default combineReducers({
-//   images: imageReducer,
+
+const snapReducer = (state=initialState.images, action) => {
+  switch(action.type) {
+    case "ADD_IMG": 
+      return [...state, action.imageUri]
+    case "GET_IMGS":
+      return state
+    default:
+      return state
+  }
+}
+
+const reducers = combineReducers({
+  snaps: snapReducer,
+});
+
+const store = createStore(reducers);
+
+
+store.subscribe(() => {
+  console.log('store changed', store.getState());
+});
+
+export default store;
+// to go into the snapscreen view
+
+// store.dispatch({type: 'ADD_IMG', imageUri: saveResult});
+
+
+// const store = createStore(reducer, { // CREATE AN OBJECT FOR THE STORE TO TAKE RECORD OF
+
 // });
-
-// const store = createStore(reducers);
-
-// // const store = createStore(reducer, { // CREATE AN OBJECT FOR THE STORE TO TAKE RECORD OF
-
-// // });
-
-// store.subscribe(() => {
-//   console.log('store changed', store.getState());
-// });
-
-// // to go into the snapscreen view
-
-// store.dispatch({type: 'ADD_IMG', payload: saveResult});
