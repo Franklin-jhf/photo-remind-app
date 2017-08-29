@@ -33,10 +33,12 @@ export default class SnapScreen extends Component {
 
   if (this.camera) {
     let result;
-    await this.camera.takePictureAsync().then(data => result = data)
+    await this.camera.takePictureAsync().then(data => {
+      store.dispatch({ type: "ADD_IMG", imageUri: data});
+      result = data;
+    })
       .catch(err => console.log(err));
     let saveResult = await CameraRoll.saveToCameraRoll(result, 'photo');
-    store.dispatch({ type: "ADD_IMG", imageUri: saveResult});
     this.setState({ cameraRollUri: saveResult });
   }
 }

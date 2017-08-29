@@ -1,7 +1,7 @@
 import { combineReducers, createStore } from 'redux';
 
 const initialState = {
-  images: ['hi its working']
+  images: []
 }
 
 
