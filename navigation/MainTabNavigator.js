@@ -6,7 +6,7 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 import SnapScreen from '../screens/SnapScreen';
-import ListScreen from '../screens/ListScreen';
+import GridScreen from '../screens/GridScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 export default TabNavigator(
@@ -15,7 +15,7 @@ export default TabNavigator(
       screen: SnapScreen,
     },
     Todos: {
-      screen: ListScreen,
+      screen: GridScreen,
     },
     Settings: {
       screen: SettingsScreen,

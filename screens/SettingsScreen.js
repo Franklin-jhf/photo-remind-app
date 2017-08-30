@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
 import { ListView } from 'react-native';
+import { Container, Header, Content, Button, Icon, List, ListItem, Text } from 'native-base';
 import store from '../src/client';
 import { connect } from 'react-redux';
-import { Container, Header, Content, Button, Icon, List, ListItem, Text } from 'native-base';
 
 
+const datas = [
+  'Simon Mignolet',
+  'Nathaniel Clyne',
+  'Dejan Lovren',
+  'Mama Sakho',
+  'Alberto Moreno',
+  'Emre Can',
+  'Joe Allen',
+  'Phil Coutinho',
+];
 
 class ListScreen extends Component {
-  static navigationOptions = {
-    title: 'Links',
-  };
+  constructor(props) {
+    super(props);
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    this.state = {
+      basic: true,
+      listViewData: datas,
+    };
+  }
 
   componentWillMount() {
     this.setState({ 
@@ -17,30 +32,41 @@ class ListScreen extends Component {
     });
   }
 
-
-
-  render() {
-    return (
-      <View>
-        <Text>
-          {this.props.snaps}
-          hi 
-        </Text>
-        {this.props.snaps.map(i => {
-          return (
-            <View style={styles.image}>
-              <Image
-                style={styles.image}
-                source={{uri: i}}
-              />
-            </View>
-          )
-        })}
-      </View>
-    )
+  deleteRow(secId, rowId, rowMap) {
+    rowMap[`${secId}${rowId}`].props.closeRow();
+    const newData = [...this.state.listViewData];
+    newData.splice(rowId, 1);
+    this.setState({ listViewData: newData });
   }
-
+  render() {
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    return (
+      <Container>
+        <Header />
+        <Content>
+          <List
+            dataSource={this.ds.cloneWithRows(this.state.listViewData)}
+            renderRow={data =>
+              <ListItem>
+                <Text> {data} </Text>
+              </ListItem>}
+            renderLeftHiddenRow={data =>
+              <Button full onPress={() => alert(data)}>
+                <Icon active name="information-circle" />
+              </Button>}
+            renderRightHiddenRow={(data, secId, rowId, rowMap) =>
+              <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
+                <Icon active name="trash" />
+              </Button>}
+            leftOpenValue={75}
+            rightOpenValue={-75}
+          />
+        </Content>
+      </Container>
+    );
+  }
 }
+
   function mapStateToProps(state) {
     return {
       snaps: state.snaps
@@ -50,73 +76,3 @@ class ListScreen extends Component {
 
 
 export default connect(mapStateToProps)(ListScreen);
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-  scrollContainer: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-  item: {
-    backgroundColor: 'yellow',  
-     alignSelf: "flex-start",
-     alignItems: 'center',
-     justifyContent: 'center',
-     marginBottom: 20
-  },
-  imageList: {
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 30
-  },
-  image: {
-    width: 100,
-    height: 100,
-    backgroundColor: 'black'
-  }
-});
- 
-  // render() {
-  //   const tileDimensions = calcTileDimensions(width, 2);
-  //   const tiles = { this.props.snaps }
-  //   return (
-  //     <View>
-  //       <Text>
-  //         { this.props.snaps }
-  //       </Text>
-  //       <Image
-  //         style={styles.image}
-  //         source={{uri: this.props.link}}
-  //       />
-  //     </View>
-  //   );
-  // }
-
-
-  // testAdd = () => {
-  //   console.log(store.getState().snaps);
-  //   store.dispatch({ type: "ADD_IMG", imageUri: 'Hey this is working!'});
-  //   console.log(store.dispatch({ type: "GET_IMGS" }));
-  // }
-    
-
-  // render() {
-  //   return (
-  //     // <ListView 
-  //     //   style={styles.container}
-  //     // >
-  //     <View>
-  //       <TouchableOpacity onPress={this.testAdd.bind(this)}>
-  //         <Text> let's see </Text>
-  //       </TouchableOpacity>
-  //     </View>
-  //     // </ListView>
-  //   );
-  // }

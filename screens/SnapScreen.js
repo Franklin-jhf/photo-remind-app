@@ -22,12 +22,12 @@ export default class SnapScreen extends Component {
     });
   };
 
-  _handleBarCodeRead = data => {
-    Alert.alert(
-      'Scan successful!',
-      JSON.stringify(data)
-    );
-  };
+  // _handleBarCodeRead = data => {
+  //   Alert.alert(
+  //     'Scan successful!',
+  //     JSON.stringify(data)
+  //   );
+  // };
 
   snap = async() => {
 
